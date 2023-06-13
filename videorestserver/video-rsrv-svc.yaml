@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: dataprovider
+  name: video-rsrv-svc
+  labels:
+    app: video-rsrv-app
+spec:
+  type: NodePort
+  ports:
+    - port: 9090
+      name: video-rsrv
+  selector:
+    app: video-rsrv-app
+    tier: frontend

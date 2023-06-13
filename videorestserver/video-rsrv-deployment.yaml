@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: dataprovider
+  name: video-rsrv
+  labels:
+    app: video-rsrv-app
+spec:
+  selector:
+    matchLabels:
+      app: video-rsrv-app
+      tier: frontend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: video-rsrv-app
+        tier: frontend
+    spec:
+      containers:
+        - name: video-rsrv-app
+          image: registry.192.168.131.9.nip.io/videoserver:latest 
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: repositoryacquisition
+              mountPath: /repositoryacquisition
+          livenessProbe:
+            exec:
+              command:
+                [
+                  "/bin/bash",
+                  "-c",
+                  "wget http://localhost:9090/status/query -O /dev/null",
+                ]
+            initialDelaySeconds: 20
+            periodSeconds: 5
+          readinessProbe:
+            exec:
+              command:
+                [
+                  "/bin/bash",
+                  "-c",
+                  "wget http://localhost:9090/status/query -O /dev/null",
+                ]
+            initialDelaySeconds: 15
+            timeoutSeconds: 5
+          ports:
+            - containerPort: 9090
+      volumes:
+        - name: repositoryacquisition
+          hostPath:
+            path: /srv/cifs/repository/acquisition
+      nodeSelector:
+        k8s.ct.int.ingv.it/smbNode: "true"
