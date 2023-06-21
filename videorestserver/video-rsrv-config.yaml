@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: dataprovider
+  name: video-rsrv-config
+  labels:
+    app: video-rsrv-config
+data:
+  videoRestServer.ini: |
+    [ProviderParam]
+    providerName = VideoRestServer
+    providerVersion = 1.2
+    providerPort = 9090
+    providerQSize = 100
+    # mount di \\repository\acquisition in /mnt/videoarc
+    providerDataPath = /repositoryacquisition/Permanent/Video/
+  

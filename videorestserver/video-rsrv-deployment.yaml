@@ -25,6 +25,9 @@ spec:
           volumeMounts:
             - name: repositoryacquisition
               mountPath: /repositoryacquisition
+            - name: config
+              mountPath: /opt/videoRestServer.ini
+              subPath: videoRestServer.ini
           livenessProbe:
             exec:
               command:
@@ -51,5 +54,8 @@ spec:
         - name: repositoryacquisition
           hostPath:
             path: /srv/cifs/repository/acquisition
+        - name: config
+          configMap:
+            name: video-rsrv-config
       nodeSelector:
         k8s.ct.int.ingv.it/smbNode: "true"
