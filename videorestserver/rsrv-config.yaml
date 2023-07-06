@@ -2,9 +2,9 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   namespace: dataprovider
-  name: video-rsrv-config
+  name: files-rsrv-config
   labels:
-    app: video-rsrv-config
+    app: files-rsrv-config
 data:
   videoRestServer.ini: |
     [ProviderParam]
@@ -12,6 +12,12 @@ data:
     providerVersion = 1.2
     providerPort = 9090
     providerQSize = 100
-    # mount di \\repository\acquisition in /mnt/videoarc
     providerDataPath = /repositoryacquisition/Permanent/Video/
-  
+  filesRestServer.ini: |
+    [ProviderParam]
+    ProviderName = SUDSRest_Server
+    providerPort = 9095
+    providerQSize = 10
+    fileExt = dmx
+    dataType = SUDS
+    providerDataPath = /repositoryacquisition/Permanent/Seismic/

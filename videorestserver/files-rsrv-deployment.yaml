@@ -2,39 +2,39 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   namespace: dataprovider
-  name: video-rsrv
+  name: files-rsrv
   labels:
-    app: video-rsrv-app
+    app: files-rsrv-app
 spec:
   selector:
     matchLabels:
-      app: video-rsrv-app
+      app: files-rsrv-app
       tier: frontend
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: video-rsrv-app
+        app: files-rsrv-app
         tier: frontend
     spec:
       containers:
-        - name: video-rsrv-app
-          image: registry.192.168.131.9.nip.io/videoserver:latest 
+        - name: files-rsrv-app
+          image: registry.192.168.131.9.nip.io/filesrestserver:latest 
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - name: repositoryacquisition
               mountPath: /repositoryacquisition
             - name: config
-              mountPath: /opt/videoRestServer.ini
-              subPath: videoRestServer.ini
+              mountPath: /opt/filesRestServer.ini
+              subPath: filesRestServer.ini
           livenessProbe:
             exec:
               command:
                 [
                   "/bin/bash",
                   "-c",
-                  "wget http://localhost:9090/status/query -O /dev/null",
+                  "wget http://localhost:9095/status/query -O /dev/null",
                 ]
             initialDelaySeconds: 20
             periodSeconds: 5
@@ -44,12 +44,12 @@ spec:
                 [
                   "/bin/bash",
                   "-c",
-                  "wget http://localhost:9090/status/query -O /dev/null",
+                  "wget http://localhost:9095/status/query -O /dev/null",
                 ]
             initialDelaySeconds: 15
             timeoutSeconds: 5
           ports:
-            - containerPort: 9090
+            - containerPort: 9095
       volumes:
         - name: repositoryacquisition
           hostPath:
