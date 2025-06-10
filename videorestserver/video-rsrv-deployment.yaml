@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: video-rsrv-app
-          image: registry.192.168.131.9.nip.io/videoserver:latest 
+          image: ghcr.io/ingv-oe-dev/docker-videorestserver/videorestserver:latest
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - name: repositoryacquisition
