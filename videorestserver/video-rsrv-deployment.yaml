@@ -32,9 +32,8 @@ spec:
             exec:
               command:
                 [
-                  "/bin/bash",
-                  "-c",
-                  "wget http://localhost:9090/status/query -O /dev/null",
+                  "/bin/healthchecker",
+                  "http://localhost:9090/status/query",
                 ]
             initialDelaySeconds: 20
             periodSeconds: 5
@@ -42,9 +41,8 @@ spec:
             exec:
               command:
                 [
-                  "/bin/bash",
-                  "-c",
-                  "wget http://localhost:9090/status/query -O /dev/null",
+                  "/bin/healthchecker",
+                  "http://localhost:9090/status/query",
                 ]
             initialDelaySeconds: 15
             timeoutSeconds: 5
