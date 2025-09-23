@@ -8,7 +8,7 @@ spec:
 
   source:
     repoURL: https://github.com/ingv-oe-dev/k8s-videoRestServer.git
-    targetRevision: dev
+    targetRevision: main
     path: videorestserver/overlays/prod
   destination:
     server: https://kubernetes.default.svc
