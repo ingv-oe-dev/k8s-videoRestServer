@@ -9,45 +9,45 @@ spec:
   selector:
     matchLabels:
       app: video-rsrv-app
-      tier: frontend
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:
         app: video-rsrv-app
-        tier: frontend
     spec:
       containers:
         - name: video-rsrv-app
-          image: ghcr.io/ingv-oe-dev/docker-videorestserver/videorestserver:latest
-          imagePullPolicy: Always
+          image: ghcr.io/ingv-oe-dev/docker-videorestserver/videorestserver:v2
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 9090
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "256Mi"
+          livenessProbe:
+            httpGet:
+              path: /status/query
+              port: http
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /status/query
+              port: http
+            initialDelaySeconds: 15
+            timeoutSeconds: 5
+            periodSeconds: 5
           volumeMounts:
             - name: repositoryacquisition
               mountPath: /repositoryacquisition
             - name: config
               mountPath: /opt/videoRestServer.ini
               subPath: videoRestServer.ini
-          livenessProbe:
-            exec:
-              command:
-                [
-                  "/bin/healthchecker",
-                  "http://localhost:9090/status/query",
-                ]
-            initialDelaySeconds: 20
-            periodSeconds: 5
-          readinessProbe:
-            exec:
-              command:
-                [
-                  "/bin/healthchecker",
-                  "http://localhost:9090/status/query",
-                ]
-            initialDelaySeconds: 15
-            timeoutSeconds: 5
-          ports:
-            - containerPort: 9090
       volumes:
         - name: repositoryacquisition
           hostPath:
@@ -55,5 +55,3 @@ spec:
         - name: config
           configMap:
             name: video-rsrv-config
-      nodeSelector:
-        k8s.ct.int.ingv.it/smbNode: "true"

@@ -12,4 +12,3 @@ spec:
       name: video-rsrv
   selector:
     app: video-rsrv-app
-    tier: frontend
