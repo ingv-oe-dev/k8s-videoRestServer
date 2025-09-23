@@ -9,3 +9,7 @@ patches:
     target:
       kind: Deployment
       name: video-rsrv
+  - path: ingress.yaml
+    target:
+      kind: Ingress
+      name: video-rsrv-ingress
