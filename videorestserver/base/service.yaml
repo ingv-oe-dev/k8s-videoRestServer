@@ -9,7 +9,8 @@ spec:
   type: NodePort
   ports:
     - port: 9090
-      name: video-rsrv
+      name: http
+      protocol: TCP
+      targetPort: http
   selector:
     app: video-rsrv-app
-    tier: frontend

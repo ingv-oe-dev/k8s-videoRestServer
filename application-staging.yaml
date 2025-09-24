@@ -9,10 +9,10 @@ spec:
   source:
     repoURL: https://github.com/ingv-oe-dev/k8s-videoRestServer.git
     targetRevision: main
-    path: videorestserver/overlays/prod
+    path: videorestserver/overlays/staging
   destination:
     server: https://kubernetes.default.svc
-    namespace: dataprovider
+    namespace: dataprovider-staging
 
   syncPolicy:
     syncOptions:

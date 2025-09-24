@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: video-rsrv-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: "cluster-issuer"
+
+spec:
+  tls:
+    - hosts:
+      - videorsrv.10.201.2.221.nip.io
+      secretName: video-rsrv-tls
+
+  rules:
+    - host: videorsrv.10.201.2.221.nip.io
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: video-rsrv-svc
+                port:
+                  number: 9090

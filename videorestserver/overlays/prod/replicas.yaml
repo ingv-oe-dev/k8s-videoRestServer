@@ -1,0 +1,6 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: video-rsrv
+spec:
+  replicas: 3

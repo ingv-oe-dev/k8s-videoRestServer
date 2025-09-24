@@ -12,6 +12,4 @@ data:
     providerVersion = 1.2
     providerPort = 9090
     providerQSize = 100
-    # mount di \\repository\acquisition in /mnt/videoarc
     providerDataPath = /repositoryacquisition/Permanent/Video/
-  

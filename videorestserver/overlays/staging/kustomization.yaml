@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ../../base
+namespace: dataprovider-staging
+patches:
+  - path: replicas.yaml
+    target:
+      kind: Deployment
+      name: video-rsrv
+  - path: ingress.yaml
+    target:
+      kind: Ingress
+      name: video-rsrv-ingress

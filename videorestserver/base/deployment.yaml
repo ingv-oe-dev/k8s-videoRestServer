@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: dataprovider
+  name: video-rsrv
+  labels:
+    app: video-rsrv-app
+spec:
+  selector:
+    matchLabels:
+      app: video-rsrv-app
+  template:
+    metadata:
+      labels:
+        app: video-rsrv-app
+    spec:
+      containers:
+        - name: video-rsrv-app
+          image: ghcr.io/ingv-oe-dev/docker-videorestserver/videorestserver:v2
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 9090
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "256Mi"
+          livenessProbe:
+            httpGet:
+              path: /status/query
+              port: http
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /status/query
+              port: http
+            initialDelaySeconds: 15
+            timeoutSeconds: 5
+            periodSeconds: 5
+          volumeMounts:
+            - name: repositoryacquisition
+              mountPath: /repositoryacquisition
+            - name: config
+              mountPath: /opt/videoRestServer.ini
+              subPath: videoRestServer.ini
+      volumes:
+        - name: repositoryacquisition
+          hostPath:
+            path: /srv/cifs/repository/acquisition
+        - name: config
+          configMap:
+            name: video-rsrv-config
