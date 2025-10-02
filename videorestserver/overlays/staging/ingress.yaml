@@ -4,18 +4,19 @@ metadata:
   name: video-rsrv-ingress
   annotations:
     cert-manager.io/cluster-issuer: "cluster-issuer"
+    traefik.ingress.kubernetes.io/router.middlewares: dataprovider-staging-strip-video-prefix@kubernetescrd
 
 spec:
   tls:
     - hosts:
-      - videorsrv.10.201.2.221.nip.io
+      - dataprovider.10.201.2.221.nip.io
       secretName: video-rsrv-tls
 
   rules:
-    - host: videorsrv.10.201.2.221.nip.io
+    - host: dataprovider.10.201.2.221.nip.io
       http:
         paths:
-          - path: /
+          - path: /video
             pathType: Prefix
             backend:
               service:
